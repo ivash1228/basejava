@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
 
-    private static final int STORAGE_LIMIT = 10000;
+    protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResume = 0;
 
@@ -14,21 +14,40 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getSearchKey(resume.getUuid());
         if (countResume >= STORAGE_LIMIT) {
             System.out.println("Storage is full");
-        } else if (index == -1) {
+        } else if (index > -1) {
             System.out.printf("Resume %s already exists\n", resume.getUuid());
         } else {
-            storage[countResume] = resume;
+            saveResume(resume, index);
             countResume++;
         }
     }
 
     public final Resume get(String uuid) {
         int index = getSearchKey(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.out.printf("Resume %s doesn't exist\n", uuid);
             return null;
         }
         return storage[index];
+    }
+
+    public final void update(Resume resume) {
+        int index = getSearchKey(resume.getUuid());
+        if (index < 0) {
+            System.out.println("Resume doesn't exists");
+        } else {
+            storage[index] = resume;
+            System.out.println("Resume updated");
+        }
+    }
+
+    public final void delete(String uuid) {
+        int index = getSearchKey(uuid);
+        if (index >= 0) {
+            deleteResume(index);
+            storage[countResume] = null;
+            countResume--;
+        }
     }
 
     public Resume[] getAll() {
@@ -44,6 +63,9 @@ public abstract class AbstractArrayStorage implements Storage {
         return countResume;
     }
 
-    abstract int getSearchKey(String uuid);
+    protected abstract int getSearchKey(String uuid);
 
+    protected abstract void saveResume(Resume resume, int index);
+
+    protected abstract void deleteResume(int index);
 }
