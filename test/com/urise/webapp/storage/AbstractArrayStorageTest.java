@@ -9,17 +9,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 abstract class AbstractArrayStorageTest {
-    public Storage storage;
+    public final Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
     private static final Resume RESUME1 = new Resume(UUID_1);
     private static final Resume RESUME2 = new Resume(UUID_2);
     private static final Resume RESUME3 = new Resume(UUID_3);
-    private static final Resume RESUME4 = new Resume(UUID_4);
-
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
@@ -34,35 +31,36 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     void save() {
-        int qtyBeforeSave = storage.size();
-        storage.save(RESUME4);
-        assertTrue(qtyBeforeSave + 1 == storage.size(), "Quantity is incorrect");
-        assertEquals(RESUME4, storage.get("uuid4"));
+        assertSize(3);
+        assertGet(RESUME3);
     }
 
     @Test
     void get() {
-        assertEquals(RESUME3, storage.get("uuid3"));
+         assertGet(RESUME3);
     }
 
     @Test
     void update() {
-        int qtyBeforeUpdate = storage.size();
-        storage.update(RESUME3);
-        assertEquals(qtyBeforeUpdate, storage.size());
+        Resume resume4 = RESUME3;
+        storage.update(resume4);
+        assertTrue(RESUME3.equals(resume4));
+        assertSize(3);
     }
 
     @Test
     void delete() {
-        int qtyBeforeDelete = storage.size();
-        storage.delete("uuid3");
-        assertTrue( qtyBeforeDelete - 1 == storage.size());
+        storage.delete(RESUME3.getUuid());
+        assertSize(2);
+        assertThrows(NotExistStorageException.class, () -> {
+            storage.get("RESUME3");
+        });
     }
 
     @Test
     void getAll() {
-        Resume[] storageResumes = storage.getAll();
-        assertEquals(storageResumes.length, storage.size());
+        Resume[] expected = storage.getAll();
+        assertSize(expected.length);
     }
 
     @Test
@@ -73,27 +71,46 @@ abstract class AbstractArrayStorageTest {
     @Test
     void clear() {
         storage.clear();
-        assertEquals(0, storage.size(), "Clearing not working");
+        assertSize(0);
+        Resume[] emptyStorage = storage.getAll();
+        assertEquals(emptyStorage.length, storage.size());
     }
 
     @Test
-    void doesExist() {
+    void saveExist() {
         assertThrows(ExistStorageException.class, () -> {
             storage.save(RESUME1);
         });
     }
 
     @Test
-    public void doesNotExist() {
+    public void getNotExist() {
         assertThrows(NotExistStorageException.class, () -> {
             storage.get("dummy");
         });
     }
 
     @Test
-    public void updateAlreadyExist() {
+    public void updateExist() {
         assertThrows(ExistStorageException.class, () -> {
             storage.update(RESUME1);
         });
+    }
+
+    @Test
+    public void deleteNotExist() {
+        assertThrows(NotExistStorageException.class, () -> {
+            storage.delete("uuid5");
+        });
+    }
+
+    public void assertSize(int expectedSize) {
+        assertTrue(expectedSize == storage.size(), "Size is incorrect");
+        //Проверяй количество элементов в хранилище после сохранения нового при помощ assertSize
+    }
+
+    public void assertGet(Resume resume) {
+        Resume storageResume = storage.get(resume.getUuid());
+        assertTrue(resume.equals(storageResume));
     }
 }
