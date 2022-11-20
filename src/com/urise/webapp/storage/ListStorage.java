@@ -5,6 +5,7 @@ import com.urise.webapp.exceptions.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class ListStorage extends AbstractStorage {
@@ -46,7 +47,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        return (Resume[]) storage.toArray();
     }
 
     @Override
