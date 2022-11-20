@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-abstract class AbstractArrayStorageTest {
-    public final Storage storage;
+public class ListStorageTest {
 
+    public final ListStorage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final Resume RESUME1 = new Resume(UUID_1);
     private static final Resume RESUME2 = new Resume(UUID_2);
     private static final Resume RESUME3 = new Resume(UUID_3);
-    public AbstractArrayStorageTest(Storage storage) {
+    public ListStorageTest(ListStorage storage) {
         this.storage = storage;
     }
 
@@ -30,18 +30,13 @@ abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    void save() {
+    public void save() {
         assertSize(3);
         assertGet(RESUME3);
     }
 
     @Test
-    void get() {
-         assertGet(RESUME3);
-    }
-
-    @Test
-    void update() {
+    public void update() {
         Resume resume4 = RESUME3;
         storage.update(resume4);
         assertTrue(RESUME3.equals(resume4));
@@ -55,17 +50,6 @@ abstract class AbstractArrayStorageTest {
         assertThrows(NotExistStorageException.class, () -> {
             storage.get("RESUME3");
         });
-    }
-
-    @Test
-    void getAll() {
-        Resume[] expected = storage.getAll();
-        assertSize(expected.length);
-    }
-
-    @Test
-    void size() {
-        assertEquals(3, storage.size(), "Size is incorrect");
     }
 
     @Test
@@ -104,12 +88,12 @@ abstract class AbstractArrayStorageTest {
         });
     }
 
-    public void assertSize(int expectedSize) {
-        assertTrue(expectedSize == storage.size(), "Size is incorrect");
+    private void assertGet(Resume resume) {
+        assertTrue(resume.equals(storage.get(resume.getUuid())));
     }
 
-    public void assertGet(Resume resume) {
-        Resume storageResume = storage.get(resume.getUuid());
-        assertTrue(resume.equals(storageResume));
+    private void assertSize(int expectedSize) {
+        assertTrue(expectedSize == storage.size());
     }
+
 }
