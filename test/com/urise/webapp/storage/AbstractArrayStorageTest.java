@@ -92,8 +92,8 @@ abstract class AbstractArrayStorageTest {
 
     @Test
     public void updateExist() {
-        assertThrows(ExistStorageException.class, () -> {
-            storage.update(RESUME1);
+        assertThrows(NotExistStorageException.class, () -> {
+            storage.update(new Resume("dummy"));
         });
     }
 

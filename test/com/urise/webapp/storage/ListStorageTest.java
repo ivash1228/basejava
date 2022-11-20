@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exceptions.ExistStorageException;
 import com.urise.webapp.exceptions.NotExistStorageException;
+import com.urise.webapp.exceptions.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,16 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ListStorageTest {
 
-    public final ListStorage storage;
+    public final Storage storage = new ListStorage();
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final Resume RESUME1 = new Resume(UUID_1);
     private static final Resume RESUME2 = new Resume(UUID_2);
     private static final Resume RESUME3 = new Resume(UUID_3);
-    public ListStorageTest(ListStorage storage) {
-        this.storage = storage;
-    }
 
     @BeforeEach
     void setUp() {
@@ -76,15 +74,15 @@ public class ListStorageTest {
 
     @Test
     public void updateExist() {
-        assertThrows(ExistStorageException.class, () -> {
-            storage.update(RESUME1);
+        assertThrows(NotExistStorageException.class, () -> {
+            storage.update(new Resume("dummy"));
         });
     }
 
     @Test
     public void deleteNotExist() {
         assertThrows(NotExistStorageException.class, () -> {
-            storage.delete("uuid5");
+            storage.delete("dummy");
         });
     }
 
