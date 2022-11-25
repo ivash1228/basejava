@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exceptions.ExistStorageException;
-import com.urise.webapp.exceptions.NotExistStorageException;
 import com.urise.webapp.exceptions.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -10,48 +8,48 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10000;
-    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResume = 0;
+    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
-    public final void save(Resume resume) {
-        int index = getSearchKey(resume.getUuid());
+
+    @Override
+    public final void doSave(Resume resume, Object searchKey) {
         if (countResume >= STORAGE_LIMIT) {
             throw new StorageException("Storage is full.", resume.getUuid());
-        } else if (index > -1) {
-            throw new ExistStorageException(resume.getUuid());
         } else {
+            int index = (Integer) searchKey;
             saveResume(resume, index);
             countResume++;
         }
     }
 
-    public final Resume get(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    public final Resume doGet(Object searchKey) {
+        int index = (Integer) searchKey;
         return storage[index];
     }
 
-    public final void update(Resume resume) {
-        int index = getSearchKey(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            storage[index] = resume;
-            System.out.println("Resume updated");
-        }
+    @Override
+    public final void doUpdate(Resume resume, Object searchKey) {
+        int index = (Integer) searchKey;
+        storage[index] = resume;
     }
 
-    public final void delete(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index >= 0) {
+    @Override
+    public final void doDelete(Object searchKey) {
+            int index = (Integer) searchKey;
             deleteResume(index);
             storage[countResume] = null;
             countResume--;
-        } else {
-            throw new NotExistStorageException(uuid);
         }
+
+    @Override
+    protected boolean isExist(String uuid) {
+        int index = (Integer) getSearchKey(uuid);
+        if (index > -1) {
+            return true;
+        }
+        return false;
     }
 
     public Resume[] getAll() {
@@ -67,9 +65,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return countResume;
     }
 
-    protected abstract int getSearchKey(String uuid);
+    abstract void saveResume(Resume resume, int index);
 
-    protected abstract void saveResume(Resume resume, int index);
+    abstract void deleteResume(int index);
 
-    protected abstract void deleteResume(int index);
 }
