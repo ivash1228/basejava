@@ -7,8 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ListStorageTest {
+public class MapStorageTest {
 
     public final Storage storage = new ListStorage();
     private static final String UUID_1 = "uuid1";
