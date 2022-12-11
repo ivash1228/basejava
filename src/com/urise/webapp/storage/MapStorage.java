@@ -3,10 +3,11 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MapStorage extends AbstractStorage{
 
-    protected final HashMap<Object, Resume> storage = new HashMap<>();
+    protected final Map<Object, Resume> storage = new HashMap<>();
 
     @Override
     protected boolean isExist(String uuid) {
@@ -30,7 +31,7 @@ public class MapStorage extends AbstractStorage{
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        storage.replace(searchKey, resume);
+        storage.put(searchKey, resume);
     }
 
     @Override
