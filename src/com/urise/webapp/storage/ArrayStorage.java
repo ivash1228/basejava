@@ -2,6 +2,8 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.List;
+
 public class ArrayStorage extends AbstractArrayStorage {
 
     protected Object getSearchKey(String uuid) {
