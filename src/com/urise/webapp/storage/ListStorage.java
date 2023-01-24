@@ -6,29 +6,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
-    protected final ArrayList<Resume> storage = new ArrayList<>();
+    protected final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected void doSave(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Integer searchKey) {
         storage.add(resume);
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
+    protected Resume doGet(Integer searchKey) {
         int index = (Integer) searchKey;
         return storage.get(index);
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object searchKey) {
+    protected void doUpdate(Resume resume, Integer searchKey) {
         storage.set(storage.indexOf(resume), resume);
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        int index = (Integer) searchKey;
+    protected void doDelete(Integer searchKey) {
+        int index = searchKey;
         storage.remove(index);
     }
 
@@ -53,7 +53,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         return storage.indexOf(new Resume(uuid));
     }
 }

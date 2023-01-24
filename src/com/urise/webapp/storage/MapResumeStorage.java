@@ -2,38 +2,41 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public class MapResumeStorage extends AbstractStorage{
+import static java.util.Objects.*;
 
+public class MapResumeStorage extends AbstractStorage<Resume>{
+
+    protected final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected boolean isExist(String uuid) {
-        return false;
+    protected boolean isExist(Resume searchKey) {
+        return !isNull(searchKey);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        return null;
+    protected Resume getSearchKey(String uuid) {
+        return storage.get(uuid);//can be null
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return null;
+    protected Resume doGet(Resume searchKey) {
     }
 
     @Override
-    protected void doSave(Resume resume, Object searchKey) {
-
+    protected void doSave(Resume resume, Resume searchKey) {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object searchKey) {
-
+    protected void doUpdate(Resume resume, Resume searchKey) {
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
+    protected void doDelete(Resume searchKey) {
 
     }
 

@@ -6,7 +6,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected int countResume = 0;
@@ -14,32 +14,28 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
 
     @Override
-    public final void doSave(Resume resume, Object searchKey) {
+    public final void doSave(Resume resume, Integer searchKey) {
         if (countResume >= STORAGE_LIMIT) {
             throw new StorageException("Storage is full.", resume.getUuid());
         } else {
-            int index = (Integer) searchKey;
-            saveResume(resume, index);
+            saveResume(resume, searchKey);
             countResume++;
         }
     }
 
     @Override
-    public final Resume doGet(Object searchKey) {
-        int index = (Integer) searchKey;
-        return storage[index];
+    public final Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
-    public final void doUpdate(Resume resume, Object searchKey) {
-        int index = (Integer) searchKey;
-        storage[index] = resume;
+    public final void doUpdate(Resume resume, Integer searchKey) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    public final void doDelete(Object searchKey) {
-            int index = (Integer) searchKey;
-            deleteResume(index);
+    public final void doDelete(Integer searchKey) {
+            deleteResume(searchKey);
             storage[countResume] = null;
             countResume--;
         }
@@ -50,8 +46,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(String uuid) {
-        int index = (Integer) getSearchKey(uuid);
+    protected boolean isExist(String searchKey) {
+        int index = (Integer) getSearchKey(searchKey);
         if (index > -1) {
             return true;
         }
