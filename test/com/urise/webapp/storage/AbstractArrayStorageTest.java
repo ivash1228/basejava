@@ -19,11 +19,11 @@ abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         try {
             storage.clear();
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("Dummy" + i));
             }
         } catch(StorageException e){
             Assertions.fail("Storage Overflow is not expected");
         }
-        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume()));
+        Assertions.assertThrows(StorageException.class, () -> storage.save(new Resume("Dummy")));
     }
 }

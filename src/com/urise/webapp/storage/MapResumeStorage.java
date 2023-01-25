@@ -2,10 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Objects.*;
 
@@ -30,8 +27,7 @@ public class MapResumeStorage extends AbstractStorage<Resume>{
 
     @Override
     protected void doSave(Resume resume, Resume searchKey) {
-
-        storage.put(searchKey.getUuid(), resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -46,7 +42,7 @@ public class MapResumeStorage extends AbstractStorage<Resume>{
 
     @Override
     protected List<Resume> doCopyAll() {
-        return List.copyOf(storage.values());
+        return new ArrayList<>(storage.values());
     }
 
     @Override

@@ -14,16 +14,16 @@ public class MainTestArrayStorage {
     static final Storage ARRAY_STORAGE_SORT = new SortedArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume();
-        r1.setUuid("uuid1");
-        Resume r2 = new Resume();
-        r2.setUuid("uuid2");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid3");
-        Resume r4 = new Resume();
-        r4.setUuid("uuid4");
-        Resume r5 = new Resume();
-        r5.setUuid("uuid5");
+        Resume r1 = new Resume("First");
+        //r1.setUuid("uuid1");
+        Resume r2 = new Resume("Second");
+        //r2.setUuid("uuid2");
+        Resume r3 = new Resume("Third");
+        //r3.setUuid("uuid3");
+        Resume r4 = new Resume("Fourth");
+        //r4.setUuid("uuid4");
+        Resume r5 = new Resume("Fifth");
+        //r5.setUuid("uuid5");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
@@ -69,7 +69,7 @@ public class MainTestArrayStorage {
 
     static void printAll(Storage storage) {
         System.out.println("\nGet All");
-        for (Resume r : storage.getAll()) {
+        for (Resume r : storage.getAllSorted()) {
             System.out.println(r);
         }
     }

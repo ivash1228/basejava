@@ -6,6 +6,8 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -62,8 +64,8 @@ public class AbstractStorageTest {
 
     @Test
     void getAll() {
-        Resume[] expected = storage.getAll();
-        assertSize(expected.length);
+        List<Resume> expected = storage.getAllSorted();
+        assertSize(expected.size());
     }
 
     @Test
@@ -75,8 +77,8 @@ public class AbstractStorageTest {
     void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] emptyStorage = storage.getAll();
-        assertEquals(emptyStorage.length, storage.size());
+        List<Resume> emptyStorage = storage.getAllSorted();
+        assertEquals(emptyStorage.size(), storage.size());
     }
 
     @Test
