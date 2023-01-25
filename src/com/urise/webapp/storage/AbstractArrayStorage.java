@@ -46,12 +46,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isExist(String searchKey) {
-        int index = (Integer) getSearchKey(searchKey);
-        if (index > -1) {
-            return true;
-        }
-        return false;
+    protected boolean isExist(Integer searchKey) {
+        return searchKey != NON_EXISTING_KEY;
     }
 
     public void clear() {

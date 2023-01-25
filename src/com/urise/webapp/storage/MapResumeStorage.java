@@ -25,33 +25,37 @@ public class MapResumeStorage extends AbstractStorage<Resume>{
 
     @Override
     protected Resume doGet(Resume searchKey) {
+        return searchKey;
     }
 
     @Override
     protected void doSave(Resume resume, Resume searchKey) {
+
+        storage.put(searchKey.getUuid(), resume);
     }
 
     @Override
     protected void doUpdate(Resume resume, Resume searchKey) {
+        storage.put(searchKey.getUuid(), resume);
     }
 
     @Override
     protected void doDelete(Resume searchKey) {
-
+        storage.remove(searchKey.getUuid());
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        return null;
+        return List.copyOf(storage.values());
     }
 
     @Override
     public void clear() {
-
+        storage.clear();
     }
 
     @Override
     public int size() {
-        return 0;
+        return storage.size();
     }
 }

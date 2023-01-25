@@ -9,6 +9,8 @@ import java.util.List;
 
 public abstract class AbstractStorage<SK> implements Storage {
 
+    protected static final int NON_EXISTING_KEY = -1;
+
     public final void save(Resume resume) {
         SK searchKey = getNotExistingSearchKey(resume.getUuid());
         doSave(resume, searchKey);
@@ -30,17 +32,19 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     private SK getExistingSearchKey(String uuid) {
-        if (!isExist(uuid)) {
+        SK searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return getSearchKey(uuid);
+        return searchKey;
     }
 
     private SK getNotExistingSearchKey(String uuid) {
-        if (isExist(uuid)) {
+        SK searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
-        return getSearchKey(uuid);
+        return searchKey;
     }
 
     public List<Resume> getAllSorted() {
