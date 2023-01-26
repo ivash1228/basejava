@@ -12,7 +12,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     protected static final int NON_EXISTING_KEY = -1;
 
     public final void save(Resume resume) {
-        SK searchKey = getNotExistingSearchKey(resume.getUuid());
+        SK searchKey = getNotExistingSearchKey(resume.getUuid());//null if not present
         doSave(resume, searchKey);
     }
 

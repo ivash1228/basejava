@@ -2,10 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapStorage extends AbstractStorage<String>{
 
@@ -18,7 +15,7 @@ public class MapStorage extends AbstractStorage<String>{
 
     @Override
     protected String getSearchKey(String uuid) {
-        return storage.get(uuid).getUuid();
+        return uuid;
     }
 
     @Override
@@ -43,7 +40,7 @@ public class MapStorage extends AbstractStorage<String>{
 
     @Override
     protected List<Resume> doCopyAll() {
-        return storage.values().stream().toList();
+        return new ArrayList<>(storage.values());
     }
 
     @Override
