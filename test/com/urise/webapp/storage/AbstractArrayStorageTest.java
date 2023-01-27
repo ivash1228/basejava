@@ -3,7 +3,8 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exceptions.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 

@@ -4,7 +4,8 @@ import com.urise.webapp.exceptions.ExistStorageException;
 import com.urise.webapp.exceptions.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;\
+import org.junit.Test;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class AbstractStorageTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         storage.clear();
         storage.save(RESUME1);
         storage.save(RESUME2);
@@ -35,18 +36,18 @@ public class AbstractStorageTest {
     }
 
     @Test
-    void save() {
+    public void save() {
         assertSize(3);
         assertGet(RESUME3);
     }
 
     @Test
-    void get() {
+    public void get() {
         assertGet(RESUME3);
     }
 
     @Test
-    void update() {
+    public void update() {
         Resume resume4 = RESUME3;
         storage.update(resume4);
         assertTrue(RESUME3.equals(resume4));
@@ -54,7 +55,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    void delete() {
+    public void delete() {
         storage.delete(RESUME3.getUuid());
         assertSize(2);
         assertThrows(NotExistStorageException.class, () -> {
@@ -63,18 +64,18 @@ public class AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
+    public void getAll() {
         List<Resume> expected = storage.getAllSorted();
         assertSize(expected.size());
     }
 
     @Test
-    void size() {
+    public void size() {
         assertEquals(3, storage.size(), "Size is incorrect");
     }
 
     @Test
-    void clear() {
+    public void clear() {
         storage.clear();
         assertSize(0);
         List<Resume> emptyStorage = storage.getAllSorted();
@@ -82,7 +83,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    void saveExist() {
+    public void saveExist() {
         assertThrows(ExistStorageException.class, () -> {
             storage.save(RESUME1);
         });

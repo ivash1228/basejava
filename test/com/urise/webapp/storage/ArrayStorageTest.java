@@ -1,10 +1,10 @@
 package com.urise.webapp.storage;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ArrayStorageTest extends AbstractArrayStorageTest{
+public class ArrayStorageTest extends AbstractArrayStorageTest{
 
 
     public ArrayStorageTest() {
@@ -12,14 +12,14 @@ class ArrayStorageTest extends AbstractArrayStorageTest{
     }
 
     @Test
-    void getSearchKey() {
+    public void getSearchKey() {
     }
 
     @Test
-    void saveResume() {
+    public void saveResume() {
     }
 
     @Test
-    void deleteResume() {
+    public void deleteResume() {
     }
 }
