@@ -7,8 +7,10 @@ import com.urise.webapp.model.Resume;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class AbstractStorage<SK> implements Storage {
+    protected final Logger log = Logger.getLogger(getClass().getName());
 
     protected static final int NON_EXISTING_KEY = -1;
 
